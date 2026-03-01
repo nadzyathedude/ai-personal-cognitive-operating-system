@@ -14,3 +14,13 @@
 .cxx
 local.properties
 .claude/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+biometrics_server/.env
+biometrics_server/*.db
