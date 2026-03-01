@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.speach_recognotion_llm.BuildConfig
+import com.example.speach_recognotion_llm.data.audio.AssistantState
+import com.example.speach_recognotion_llm.data.audio.AssistantStateManager
 import com.example.speach_recognotion_llm.data.audio.AudioRecorder
 import com.example.speach_recognotion_llm.data.model.ChatMessage
 import com.example.speach_recognotion_llm.data.model.ServerMessage
@@ -34,6 +36,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     init {
         observeConnection()
         observeMessages()
+        observeAssistantState()
         repository.connect(authToken)
     }
 
@@ -52,6 +55,28 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             repository.messages.collect { message ->
                 handleServerMessage(message)
+            }
+        }
+    }
+
+    private fun observeAssistantState() {
+        viewModelScope.launch {
+            AssistantStateManager.state.collect { state ->
+                _uiState.update { it.copy(assistantState = state) }
+
+                when (state) {
+                    is AssistantState.Listening -> {
+                        if (!_uiState.value.isRecording) {
+                            startRecordingInternal()
+                        }
+                    }
+                    is AssistantState.Error -> {
+                        _uiState.update {
+                            it.copy(error = state.message, isRecording = false, isProcessing = false)
+                        }
+                    }
+                    else -> {}
+                }
             }
         }
     }
@@ -80,6 +105,10 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             is ServerMessage.LlmToken -> {
+                if (currentAssistantMessageId == null) {
+                    AssistantStateManager.onResponding()
+                }
+
                 assistantBuffer.append(message.token)
                 val msgId = currentAssistantMessageId
 
@@ -128,6 +157,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 currentAssistantMessageId = null
                 assistantBuffer.clear()
+                AssistantStateManager.onComplete()
             }
 
             is ServerMessage.Error -> {
@@ -138,6 +168,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                         isRecording = false
                     )
                 }
+                AssistantStateManager.onError(message.message)
             }
 
             is ServerMessage.Pong -> {}
@@ -146,15 +177,27 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun toggleRecording() {
-        if (_uiState.value.isRecording) {
-            stopRecording()
-        } else {
-            startRecording()
+        when (AssistantStateManager.currentState) {
+            is AssistantState.Idle -> {
+                // Manual trigger: stop Porcupine, then start recording
+                if (AssistantStateManager.onWakeWordDetected()) {
+                    // Service observes WakeDetected but won't auto-stop Porcupine
+                    // for manual triggers. Transition directly to Listening.
+                    AssistantStateManager.onReadyToListen()
+                }
+            }
+            is AssistantState.Listening -> {
+                stopRecordingInternal()
+            }
+            else -> {
+                // Ignore during Processing, Responding, WakeDetected, Error
+            }
         }
     }
 
-    private fun startRecording() {
+    private fun startRecordingInternal() {
         _uiState.update { it.copy(isRecording = true, error = null, liveTranscription = "") }
+        repository.sendWakeTriggered()
 
         audioRecorder.start(
             scope = viewModelScope,
@@ -165,14 +208,16 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 _uiState.update {
                     it.copy(isRecording = false, error = errorMsg)
                 }
+                AssistantStateManager.onError(errorMsg)
             }
         )
     }
 
-    private fun stopRecording() {
+    private fun stopRecordingInternal() {
         audioRecorder.stop()
         repository.endAudio()
         _uiState.update { it.copy(isRecording = false, isProcessing = true) }
+        AssistantStateManager.onProcessing()
     }
 
     fun clearError() {

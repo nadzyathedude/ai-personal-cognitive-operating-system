@@ -57,6 +57,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.speach_recognotion_llm.data.audio.AssistantState
 import com.example.speach_recognotion_llm.data.model.ChatMessage
 import com.example.speach_recognotion_llm.data.remote.ConnectionState
 import com.example.speach_recognotion_llm.ui.state.ChatUiState
@@ -96,6 +97,7 @@ fun ChatScreen(
                 messages = state.messages,
                 liveTranscription = state.liveTranscription,
                 isProcessing = state.isProcessing,
+                assistantState = state.assistantState,
                 modifier = Modifier.weight(1f)
             )
 
@@ -137,6 +139,7 @@ private fun ChatMessageList(
     messages: List<ChatMessage>,
     liveTranscription: String,
     isProcessing: Boolean,
+    assistantState: AssistantState,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
@@ -158,7 +161,11 @@ private fun ChatMessageList(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Tap the microphone to start",
+                    text = if (assistantState is AssistantState.Idle) {
+                        "Say 'Porcupine' or tap the microphone"
+                    } else {
+                        "Tap the microphone to start"
+                    },
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -316,7 +323,9 @@ private fun BottomBar(
     state: ChatUiState,
     onMicClick: () -> Unit
 ) {
-    val micEnabled = state.connectionState == ConnectionState.AUTHENTICATED && !state.isProcessing
+    val micEnabled = state.connectionState == ConnectionState.AUTHENTICATED &&
+            state.assistantState !is AssistantState.Processing &&
+            state.assistantState !is AssistantState.Responding
 
     Column(
         modifier = Modifier
@@ -333,6 +342,21 @@ private fun BottomBar(
                 text = "Listening...",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        AnimatedVisibility(
+            visible = !state.isRecording && state.assistantState is AssistantState.Idle &&
+                    state.connectionState == ConnectionState.AUTHENTICATED,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Text(
+                text = "Listening for wake word...",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -359,7 +383,7 @@ private fun BottomBar(
         )
 
         FloatingActionButton(
-            onClick = onMicClick,
+            onClick = { if (micEnabled) onMicClick() },
             shape = CircleShape,
             containerColor = buttonColor,
             elevation = FloatingActionButtonDefaults.elevation(8.dp),

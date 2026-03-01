@@ -24,6 +24,10 @@ class ChatRepository(private val wsManager: WebSocketManager) {
         wsManager.send(ClientMessage.EndAudio())
     }
 
+    fun sendWakeTriggered() {
+        wsManager.send(ClientMessage.WakeTriggered())
+    }
+
     fun disconnect() {
         wsManager.disconnect()
     }

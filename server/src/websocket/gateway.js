@@ -83,6 +83,9 @@ export class WebSocketGateway {
           case ClientMessageType.END_AUDIO:
             await this.handleEndAudio(ws, session);
             break;
+          case ClientMessageType.WAKE_TRIGGERED:
+            this.handleWakeTriggered(session);
+            break;
           case ClientMessageType.PING:
             ws.send(serverMsg(ServerMessageType.PONG));
             break;
@@ -155,6 +158,12 @@ export class WebSocketGateway {
       }));
       session.clearAudioBuffer();
     }
+  }
+
+  handleWakeTriggered(session) {
+    session.clearAudioBuffer();
+    session.lastActivity = Date.now();
+    log.info('Wake word triggered', { sessionId: session.id, userId: session.userId });
   }
 
   async handleEndAudio(ws, session) {

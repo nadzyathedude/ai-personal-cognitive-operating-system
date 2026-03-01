@@ -6,6 +6,7 @@ sealed class ClientMessage(val type: String) {
     class Authenticate(val token: String) : ClientMessage("authenticate")
     class AudioChunk(val data: String) : ClientMessage("audio_chunk")
     class EndAudio : ClientMessage("end_audio")
+    class WakeTriggered : ClientMessage("wake_triggered")
 
     fun toJson(): String {
         val json = JSONObject()
@@ -14,6 +15,7 @@ sealed class ClientMessage(val type: String) {
             is Authenticate -> json.put("token", token)
             is AudioChunk -> json.put("data", data)
             is EndAudio -> {}
+            is WakeTriggered -> {}
         }
         return json.toString()
     }

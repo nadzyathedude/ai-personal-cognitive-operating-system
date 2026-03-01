@@ -18,6 +18,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "WS_URL", "\"ws://192.168.3.36:3001\"")
+        buildConfigField(
+            "String",
+            "PORCUPINE_ACCESS_KEY",
+            "\"${project.findProperty("PORCUPINE_ACCESS_KEY") ?: ""}\""
+        )
     }
 
     buildTypes {
@@ -55,6 +60,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.okhttp)
+    implementation(libs.porcupine.android)
+    implementation(libs.mpandroidchart)
+    implementation(project(":shared"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

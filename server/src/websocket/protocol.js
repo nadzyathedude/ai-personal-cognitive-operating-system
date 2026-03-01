@@ -3,6 +3,7 @@ export const ClientMessageType = Object.freeze({
   AUDIO_CHUNK: 'audio_chunk',
   END_AUDIO: 'end_audio',
   PING: 'ping',
+  WAKE_TRIGGERED: 'wake_triggered',
 });
 
 export const ServerMessageType = Object.freeze({
