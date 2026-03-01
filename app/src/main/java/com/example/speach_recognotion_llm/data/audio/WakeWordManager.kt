@@ -26,12 +26,8 @@ class WakeWordManager(
                 .setAccessKey(accessKey)
                 .setKeyword(Porcupine.BuiltInKeyword.PORCUPINE)
                 .setSensitivity(0.7f)
-                .build(
-                    context,
-                    PorcupineManagerCallback { onWakeWordDetected() }
-                ) { error ->
-                    _isListening = false
-                    onError("Porcupine error: ${error.message}")
+                .build(context) { keywordIndex ->
+                    onWakeWordDetected()
                 }
 
             porcupineManager?.start()
