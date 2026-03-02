@@ -16,7 +16,7 @@
 
 ### Архитектура и масштабируемость
 
-Продакшн-готовый полиглотный стек: Kotlin Multiplatform (общая кодовая база Android + iOS), Node.js сервер реального времени (Fastify/WebSocket), Python ML-бэкенд (FastAPI, SpeechBrain, HuggingFace). Горизонтально масштабируемый, полностью асинхронный, готов к 10K+ одновременных пользователей.
+Продакшн-готовый полиглотный стек: Kotlin Multiplatform (общая кодовая база Android + iOS), Node.js сервер реального времени (Fastify/WebSocket), Python ML-бэкенд (FastAPI, SpeechBrain, HuggingFace). Горизонтально масштабируемый, полностью асинхронный.
 
 ---
 
