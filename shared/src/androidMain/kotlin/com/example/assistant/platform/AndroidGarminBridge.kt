@@ -10,10 +10,10 @@ class AndroidGarminBridge : GarminBridge {
     override suspend fun isConnected(): Boolean = connected
 
     override suspend fun requestPermission(): Boolean {
-        // Integration with Garmin Connect IQ SDK
+        // TODO: Integration with Garmin Connect IQ SDK
         // Requires com.garmin.connectiq:ciq-companion-app-sdk
-        connected = true
-        return true
+        // For now, returns false since no real Garmin SDK is integrated
+        return false
     }
 
     override suspend fun fetchLatestHrv(): HrvData? {

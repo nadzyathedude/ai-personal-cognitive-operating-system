@@ -1,3 +1,150 @@
 <resources>
-    <string name="app_name">speach_recognotion_llm</string>
+    <string name="app_name">AI Cognitive Assistant</string>
+
+    <!-- Navigation -->
+    <string name="nav_chat">Chat</string>
+    <string name="nav_mood">Mood</string>
+    <string name="nav_analytics">Analytics</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_wake_word_hint">Say \'Hi Dude\' or tap the microphone</string>
+    <string name="chat_tap_mic_hint">Tap the microphone to start</string>
+    <string name="chat_you">You</string>
+    <string name="chat_assistant">Assistant</string>
+    <string name="chat_thinking">Thinking…</string>
+    <string name="chat_listening">Listening…</string>
+    <string name="chat_listening_wake">Listening for wake word…</string>
+    <string name="chat_stop_recording">Stop recording</string>
+    <string name="chat_start_recording">Start recording</string>
+
+    <!-- Connection -->
+    <string name="connection_connecting">Connecting…</string>
+    <string name="connection_reconnecting">Reconnecting…</string>
+    <string name="connection_disconnected">Disconnected</string>
+
+    <!-- Mood Journal Screen -->
+    <string name="mood_title">Mood Journal</string>
+    <string name="mood_start_checkin">Start Today\'s Check-in</string>
+    <string name="mood_analyzing">Analyzing your response…</string>
+    <string name="mood_followup_title">Follow-up Questions</string>
+    <string name="mood_detected">Detected: %s</string>
+    <string name="mood_type_answer">Type your answer…</string>
+    <string name="mood_submit">Submit</string>
+    <string name="mood_session_complete">Session Complete</string>
+    <string name="mood_reflection">Reflection</string>
+    <string name="mood_done">Done</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_title">Weekly Analytics</string>
+    <string name="analytics_mood_valence">Mood (Valence)</string>
+    <string name="analytics_valence">Valence</string>
+    <string name="analytics_stress_level">Stress Level</string>
+    <string name="analytics_stress">Stress</string>
+    <string name="analytics_emotion_dist">Emotion Distribution</string>
+    <string name="analytics_emotions">Emotions</string>
+    <string name="analytics_weekly_summary">Weekly Summary</string>
+    <string name="analytics_loading">Loading analytics…</string>
+    <string name="analytics_dominant_emotion">Dominant emotion: %1$s | Avg stress: %2$s</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Choose app language</string>
+    <string name="settings_english">English</string>
+    <string name="settings_russian">Russian</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version %s</string>
+    <string name="settings_app_restart">Language changed. Restarting…</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Voice Assistant</string>
+    <string name="notif_channel_desc">Wake word detection is active</string>
+    <string name="notif_title">Voice Assistant</string>
+    <string name="notif_listening_wake">Listening for wake word…</string>
+    <string name="notif_wake_detected">Wake word detected!</string>
+    <string name="notif_recording">Recording your question…</string>
+    <string name="notif_processing">Processing…</string>
+    <string name="notif_responding">Assistant is responding…</string>
+    <string name="notif_error">Error: %s</string>
+
+    <!-- Mood Voice -->
+    <string name="mood_voice_record">Tap to speak</string>
+    <string name="mood_voice_stop">Tap to stop</string>
+    <string name="mood_voice_listening">Listening…</string>
+    <string name="mood_voice_or">or</string>
+    <string name="mood_voice_recorded">Voice recorded</string>
+
+    <!-- Tone Analysis -->
+    <string name="tone_voice_analysis">Voice Tone Analysis</string>
+    <string name="tone_acoustic_emotion">Voice Emotion</string>
+    <string name="tone_descriptor">Tone</string>
+    <string name="tone_vocal_stress">Vocal Stress</string>
+    <string name="tone_fusion">Combined Analysis</string>
+    <string name="tone_mismatch_warning">Mismatch Detected</string>
+
+    <!-- HRV Screen -->
+    <string name="nav_hrv">HRV</string>
+    <string name="hrv_title">Heart Rate Variability</string>
+    <string name="hrv_current">Current HRV</string>
+    <string name="hrv_ms">ms</string>
+    <string name="hrv_resting_hr">Resting HR</string>
+    <string name="hrv_bpm">bpm</string>
+    <string name="hrv_sleep_score">Sleep Score</string>
+    <string name="hrv_stress_index">Composite Stress</string>
+    <string name="hrv_voice_stress">Voice Stress</string>
+    <string name="hrv_text_stress">Text Stress</string>
+    <string name="hrv_hrv_stress">HRV Stress</string>
+    <string name="hrv_composite">Composite</string>
+    <string name="hrv_garmin_status">Garmin Status</string>
+    <string name="hrv_connected">Connected</string>
+    <string name="hrv_not_connected">Not connected</string>
+    <string name="hrv_connect">Connect</string>
+    <string name="hrv_scan">Scan Devices</string>
+    <string name="hrv_stop_scan">Stop Scan</string>
+    <string name="hrv_scanning">Scanning…</string>
+    <string name="hrv_searching">Searching for heart rate devices…</string>
+    <string name="hrv_waiting_hr">Connected. Waiting for heart rate data…\nMake sure HR broadcast is enabled on your watch.</string>
+    <string name="hrv_saved_devices">Previously Connected</string>
+    <string name="hrv_refresh">Refresh</string>
+    <string name="hrv_calibrating">Calibrating heart rate…\nPlease wait a few seconds.</string>
+    <string name="hrv_no_data">No HRV data available.\nConnect your Garmin device to get started.</string>
+    <string name="hrv_daily_trend">Daily HRV Trend</string>
+    <string name="hrv_low">Low</string>
+    <string name="hrv_normal">Normal</string>
+    <string name="hrv_good">Good</string>
+    <string name="hrv_hr_low">Low</string>
+    <string name="hrv_hr_elevated">Elevated</string>
+    <string name="hrv_hr_high">High</string>
+    <string name="hrv_excellent">Excellent</string>
+
+    <!-- Calendar Screen -->
+    <string name="nav_calendar">Calendar</string>
+    <string name="calendar_title">Smart Calendar</string>
+    <string name="calendar_permission_title">Calendar Access Required</string>
+    <string name="calendar_permission_desc">Grant access to read and modify your Google Calendar for stress-based scheduling</string>
+    <string name="calendar_grant_access">Grant Access</string>
+    <string name="calendar_auto_adjust">Auto-Adjust</string>
+    <string name="calendar_auto_adjust_desc">Automatically adjust schedule based on stress</string>
+    <string name="calendar_adjustment_title">Schedule Adjustment Suggested</string>
+    <string name="calendar_recovery_count">%d recovery blocks</string>
+    <string name="calendar_rescheduled_count">%d events rescheduled</string>
+    <string name="calendar_coaching_count">%d coaching reminders</string>
+    <string name="calendar_apply">Apply</string>
+    <string name="calendar_dismiss">Dismiss</string>
+    <string name="calendar_no_events">No events for this day</string>
+    <string name="calendar_stress_level">Stress: %d%%</string>
+    <string name="calendar_risk_low">Low Risk</string>
+    <string name="calendar_risk_moderate">Moderate Risk</string>
+    <string name="calendar_risk_high">High Risk</string>
+    <string name="calendar_recovery_label">Recovery</string>
+    <string name="calendar_coaching_label">Coaching</string>
+    <string name="calendar_loading">Loading calendar…</string>
+    <string name="calendar_adjusting">Applying adjustments…</string>
+
+    <!-- Errors -->
+    <string name="error_mood_start">Failed to start mood session: %s</string>
+    <string name="error_mood_process">Failed to process answer: %s</string>
+    <string name="error_mood_followup">Failed to process follow-up: %s</string>
+    <string name="error_analytics_load">Failed to load analytics: %s</string>
 </resources>

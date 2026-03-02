@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.database import init_db
-from app.routers import enrollment, mood, analytics, burnout, coaching
+from app.routers import enrollment, mood, analytics, burnout, coaching, tone, garmin
 from app.websocket.handler import websocket_endpoint
 
 logging.basicConfig(
@@ -27,6 +27,8 @@ app.include_router(mood.router)
 app.include_router(analytics.router)
 app.include_router(burnout.router)
 app.include_router(coaching.router)
+app.include_router(tone.router)
+app.include_router(garmin.router)
 
 app.websocket("/ws")(websocket_endpoint)
 

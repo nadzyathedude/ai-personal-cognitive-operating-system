@@ -20,10 +20,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,9 +52,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.speach_recognotion_llm.R
 import com.example.speach_recognotion_llm.data.audio.AssistantState
 import com.example.speach_recognotion_llm.data.model.ChatMessage
 import com.example.speach_recognotion_llm.data.remote.ConnectionState
@@ -66,7 +66,8 @@ import com.example.speach_recognotion_llm.ui.viewmodel.ChatViewModel
 @Composable
 fun ChatScreen(
     viewModel: ChatViewModel,
-    onMicClick: () -> Unit
+    onMicClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val state by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -80,10 +81,8 @@ fun ChatScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .imePadding()
     ) { paddingValues ->
         Column(
@@ -112,10 +111,10 @@ fun ChatScreen(
 @Composable
 private fun ConnectionBanner(connectionState: ConnectionState) {
     if (connectionState != ConnectionState.AUTHENTICATED && connectionState != ConnectionState.CONNECTED) {
-        val (text, color) = when (connectionState) {
-            ConnectionState.CONNECTING -> "Connecting..." to MaterialTheme.colorScheme.tertiary
-            ConnectionState.RECONNECTING -> "Reconnecting..." to MaterialTheme.colorScheme.error
-            ConnectionState.DISCONNECTED -> "Disconnected" to MaterialTheme.colorScheme.error
+        val (textRes, color) = when (connectionState) {
+            ConnectionState.CONNECTING -> R.string.connection_connecting to MaterialTheme.colorScheme.tertiary
+            ConnectionState.RECONNECTING -> R.string.connection_reconnecting to MaterialTheme.colorScheme.error
+            ConnectionState.DISCONNECTED -> R.string.connection_disconnected to MaterialTheme.colorScheme.error
             else -> return
         }
         Box(
@@ -126,7 +125,7 @@ private fun ConnectionBanner(connectionState: ConnectionState) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = text,
+                text = stringResource(textRes),
                 style = MaterialTheme.typography.labelMedium,
                 color = color
             )
@@ -162,9 +161,9 @@ private fun ChatMessageList(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = if (assistantState is AssistantState.Idle) {
-                        "Say 'Porcupine' or tap the microphone"
+                        stringResource(R.string.chat_wake_word_hint)
                     } else {
-                        "Tap the microphone to start"
+                        stringResource(R.string.chat_tap_mic_hint)
                     },
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -223,7 +222,7 @@ private fun MessageBubble(message: ChatMessage) {
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    text = if (isUser) "You" else "Assistant",
+                    text = if (isUser) stringResource(R.string.chat_you) else stringResource(R.string.chat_assistant),
                     style = MaterialTheme.typography.labelSmall,
                     color = if (isUser) {
                         MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
@@ -309,7 +308,7 @@ private fun ProcessingIndicator() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Thinking...",
+                    text = stringResource(R.string.chat_thinking),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -339,7 +338,7 @@ private fun BottomBar(
             exit = fadeOut()
         ) {
             Text(
-                text = "Listening...",
+                text = stringResource(R.string.chat_listening),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
@@ -354,7 +353,7 @@ private fun BottomBar(
             exit = fadeOut()
         ) {
             Text(
-                text = "Listening for wake word...",
+                text = stringResource(R.string.chat_listening_wake),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 textAlign = TextAlign.Center,
@@ -397,7 +396,11 @@ private fun BottomBar(
                     !micEnabled -> Icons.Default.MicOff
                     else -> Icons.Default.Mic
                 },
-                contentDescription = if (state.isRecording) "Stop recording" else "Start recording",
+                contentDescription = if (state.isRecording) {
+                    stringResource(R.string.chat_stop_recording)
+                } else {
+                    stringResource(R.string.chat_start_recording)
+                },
                 modifier = Modifier.size(32.dp),
                 tint = MaterialTheme.colorScheme.onPrimary
             )

@@ -33,6 +33,13 @@ class WakeWordService : Service() {
         private const val WAKE_LOCK_TAG = "speach_recognotion_llm:WakeWordWakeLock"
 
         fun start(context: Context) {
+            // Don't start if RECORD_AUDIO permission not granted
+            if (androidx.core.content.ContextCompat.checkSelfPermission(
+                    context, android.Manifest.permission.RECORD_AUDIO
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
             val intent = Intent(context, WakeWordService::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(intent)
@@ -76,22 +83,26 @@ class WakeWordService : Service() {
                         if (wakeWordManager?.isActive == false) {
                             wakeWordManager?.start()
                         }
-                        updateNotification("Listening for wake word...")
+                        updateNotification(getString(R.string.notif_listening_wake))
                     }
                     is AssistantState.WakeDetected -> {
-                        updateNotification("Wake word detected!")
+                        wakeWordManager?.stop()
+                        updateNotification(getString(R.string.notif_wake_detected))
                     }
                     is AssistantState.Listening -> {
-                        updateNotification("Recording your question...")
+                        wakeWordManager?.stop()
+                        updateNotification(getString(R.string.notif_recording))
                     }
                     is AssistantState.Processing -> {
-                        updateNotification("Processing...")
+                        wakeWordManager?.stop()
+                        updateNotification(getString(R.string.notif_processing))
                     }
                     is AssistantState.Responding -> {
-                        updateNotification("Assistant is responding...")
+                        wakeWordManager?.stop()
+                        updateNotification(getString(R.string.notif_responding))
                     }
                     is AssistantState.Error -> {
-                        updateNotification("Error: ${state.message}")
+                        updateNotification(getString(R.string.notif_error, state.message))
                         delay(2000)
                         AssistantStateManager.reset()
                     }
@@ -101,15 +112,29 @@ class WakeWordService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val notification = buildNotification("Listening for wake word...")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            startForeground(
-                NOTIFICATION_ID,
-                notification,
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
-            )
-        } else {
-            startForeground(NOTIFICATION_ID, notification)
+        // Check RECORD_AUDIO permission before starting foreground with microphone type
+        if (androidx.core.content.ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.RECORD_AUDIO
+            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
+
+        try {
+            val notification = buildNotification(getString(R.string.notif_listening_wake))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForeground(
+                    NOTIFICATION_ID,
+                    notification,
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+                )
+            } else {
+                startForeground(NOTIFICATION_ID, notification)
+            }
+        } catch (e: SecurityException) {
+            stopSelf()
+            return START_NOT_STICKY
         }
 
         if (wakeWordManager?.isActive == false &&
@@ -134,10 +159,10 @@ class WakeWordService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Voice Assistant",
+                getString(R.string.notif_channel_name),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Wake word detection is active"
+                description = getString(R.string.notif_channel_desc)
                 setShowBadge(false)
             }
             val nm = getSystemService(NotificationManager::class.java)
@@ -153,7 +178,7 @@ class WakeWordService : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Voice Assistant")
+            .setContentTitle(getString(R.string.notif_title))
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_mic_notification)
             .setContentIntent(pendingIntent)

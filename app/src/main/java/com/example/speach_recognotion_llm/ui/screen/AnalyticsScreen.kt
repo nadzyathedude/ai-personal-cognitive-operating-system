@@ -20,9 +20,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.speach_recognotion_llm.R
 import com.example.speach_recognotion_llm.data.model.DailyScore
 import com.example.speach_recognotion_llm.data.model.WeeklyAnalytics
 import com.example.speach_recognotion_llm.ui.viewmodel.MoodViewModel
@@ -38,7 +40,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 @Composable
-fun AnalyticsScreen(viewModel: MoodViewModel) {
+fun AnalyticsScreen(viewModel: MoodViewModel, modifier: Modifier = Modifier) {
     val analytics by viewModel.analytics.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -46,13 +48,13 @@ fun AnalyticsScreen(viewModel: MoodViewModel) {
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Weekly Analytics",
+            text = stringResource(R.string.analytics_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -61,10 +63,10 @@ fun AnalyticsScreen(viewModel: MoodViewModel) {
 
         analytics?.let { data ->
             if (data.dailyMoodScores.isNotEmpty()) {
-                ChartCard(title = "Mood (Valence)") {
+                ChartCard(title = stringResource(R.string.analytics_mood_valence)) {
                     LineChartView(
                         scores = data.dailyMoodScores,
-                        label = "Valence",
+                        label = stringResource(R.string.analytics_valence),
                         lineColor = AndroidColor.parseColor("#4CAF50")
                     )
                 }
@@ -73,10 +75,10 @@ fun AnalyticsScreen(viewModel: MoodViewModel) {
             }
 
             if (data.dailyStressScores.isNotEmpty()) {
-                ChartCard(title = "Stress Level") {
+                ChartCard(title = stringResource(R.string.analytics_stress_level)) {
                     LineChartView(
                         scores = data.dailyStressScores,
-                        label = "Stress",
+                        label = stringResource(R.string.analytics_stress),
                         lineColor = AndroidColor.parseColor("#F44336")
                     )
                 }
@@ -85,7 +87,7 @@ fun AnalyticsScreen(viewModel: MoodViewModel) {
             }
 
             if (data.emotionDistribution.isNotEmpty()) {
-                ChartCard(title = "Emotion Distribution") {
+                ChartCard(title = stringResource(R.string.analytics_emotion_dist)) {
                     BarChartView(distribution = data.emotionDistribution)
                 }
 
@@ -97,7 +99,7 @@ fun AnalyticsScreen(viewModel: MoodViewModel) {
             }
         } ?: run {
             Text(
-                text = "Loading analytics...",
+                text = stringResource(R.string.analytics_loading),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
@@ -255,7 +257,7 @@ private fun SummaryCardView(analytics: WeeklyAnalytics) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Weekly Summary",
+                text = stringResource(R.string.analytics_weekly_summary),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -268,7 +270,11 @@ private fun SummaryCardView(analytics: WeeklyAnalytics) {
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Dominant emotion: ${analytics.dominantEmotion} | Avg stress: ${"%.0f".format(analytics.avgStress * 100)}%",
+                text = stringResource(
+                    R.string.analytics_dominant_emotion,
+                    analytics.dominantEmotion,
+                    "%.0f%%".format(analytics.avgStress * 100)
+                ),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
             )

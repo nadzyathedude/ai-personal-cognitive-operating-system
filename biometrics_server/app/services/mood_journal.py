@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
 from app.models.tables import MoodJournal
 from app.services.emotion_analyzer import emotion_analyzer
+from app.services.emotion_fusion import emotion_fusion_engine
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +87,7 @@ class MoodJournalService:
         if journal is None:
             raise ValueError("Session not found")
 
-        emotion_result = emotion_analyzer.analyze(answer)
+        emotion_result = await emotion_analyzer.analyze_async(answer)
 
         journal.initial_answer = answer
         journal.detected_sentiment = emotion_result["sentiment"]
@@ -95,18 +96,47 @@ class MoodJournalService:
         journal.valence = emotion_result["valence"]
         journal.arousal = emotion_result["arousal"]
 
+        # Derive stress score from text emotion (negative valence + high arousal = stress)
+        valence = emotion_result.get("valence", 0.0)
+        arousal = emotion_result.get("arousal", 0.0)
+        text_stress = max(0.0, min(1.0, (1.0 - valence) / 2.0 * 0.6 + max(0.0, arousal) * 0.4))
+        journal.stress_score = round(text_stress, 4)
+
+        fusion_result = None
+        if journal.acoustic_emotion and journal.vocal_stress_score is not None:
+            acoustic_for_fusion = {
+                "detected_emotion": journal.acoustic_emotion,
+                "valence_estimate": journal.fusion_valence or 0.0,
+                "arousal": journal.fusion_arousal or 0.0,
+                "vocal_stress_score": journal.vocal_stress_score,
+                "confidence": journal.fusion_confidence or 0.5,
+                "tone_descriptor": journal.tone_descriptor or "",
+            }
+            fusion_result = emotion_fusion_engine.fuse(emotion_result, acoustic_for_fusion)
+
+            journal.fusion_valence = fusion_result["final_valence"]
+            journal.fusion_arousal = fusion_result["arousal_level"]
+            journal.fusion_stress_index = fusion_result["stress_index"]
+            journal.fusion_confidence = fusion_result["fusion_confidence"]
+            journal.stress_score = fusion_result["stress_index"]  # Override with fusion stress
+            if fusion_result.get("mismatch_detected"):
+                journal.mismatch_detected = fusion_result["mismatch_type"]
+
         followup_questions = await self._generate_followup_questions(
-            answer, emotion_result
+            answer, emotion_result, fusion_result
         )
         journal.followup_questions = followup_questions
         journal.followup_answers = []
 
         await db.commit()
 
-        return {
+        response = {
             "emotion": emotion_result,
             "followup_questions": followup_questions,
         }
+        if fusion_result:
+            response["fusion"] = fusion_result
+        return response
 
     async def process_followup_answer(
         self, session_id: str, question_index: int, answer: str, db: AsyncSession
@@ -138,16 +168,25 @@ class MoodJournalService:
         }
 
     async def _generate_followup_questions(
-        self, answer: str, emotion: dict
+        self, answer: str, emotion: dict, fusion: dict | None = None
     ) -> list[str]:
         client = self._get_client()
+
+        tone_context = ""
+        if fusion and fusion.get("mismatch_detected"):
+            tone_context = (
+                f"\nNote: A mismatch was detected between the user's words and voice tone. "
+                f"Type: {fusion.get('mismatch_type', 'unknown')}. "
+                f"Tone descriptor: {fusion.get('tone_descriptor', 'unknown')}. "
+                f"Consider gently exploring this discrepancy in one of the questions."
+            )
 
         prompt = FOLLOWUP_PROMPT_TEMPLATE.format(
             answer=answer,
             emotion=emotion["primary_emotion"],
             confidence=emotion["confidence"],
             sentiment=emotion["sentiment"],
-        )
+        ) + tone_context
 
         response = await client.chat.completions.create(
             model=settings.llm_model,

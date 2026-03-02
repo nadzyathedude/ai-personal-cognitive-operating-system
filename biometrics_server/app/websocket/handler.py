@@ -10,9 +10,19 @@ from sqlalchemy import select
 from app.config import settings
 from app.db.database import async_session
 from app.models.tables import SpeakerEmbedding, MoodJournal
-from app.services.speaker_embedding import speaker_service
-from app.services.voice_stress import feature_extractor, stress_model, hybrid_combiner
 from app.services.emotion_analyzer import emotion_analyzer
+
+try:
+    from app.services.speaker_embedding import speaker_service
+except ImportError:
+    speaker_service = None
+
+try:
+    from app.services.voice_stress import feature_extractor, stress_model, hybrid_combiner
+except ImportError:
+    feature_extractor = None
+    stress_model = None
+    hybrid_combiner = None
 from app.websocket.protocol import (
     ClientMessageType,
     ServerMessageType,

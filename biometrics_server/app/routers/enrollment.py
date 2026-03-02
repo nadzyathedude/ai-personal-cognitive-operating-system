@@ -8,7 +8,10 @@ from app.config import settings
 from app.db.database import get_db
 from app.models.tables import SpeakerEmbedding
 from app.routers.auth import get_user_id
-from app.services.speaker_embedding import speaker_service
+try:
+    from app.services.speaker_embedding import speaker_service
+except ImportError:
+    speaker_service = None
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/enroll", tags=["enrollment"])
