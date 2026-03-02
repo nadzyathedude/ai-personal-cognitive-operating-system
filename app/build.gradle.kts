@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) load(file.inputStream())
 }
 
 android {
@@ -21,7 +28,7 @@ android {
         buildConfigField(
             "String",
             "PORCUPINE_ACCESS_KEY",
-            "\"${project.findProperty("PORCUPINE_ACCESS_KEY") ?: ""}\""
+            "\"${localProperties.getProperty("PORCUPINE_ACCESS_KEY", "")}\""
         )
     }
 
@@ -62,6 +69,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.porcupine.android)
     implementation(libs.mpandroidchart)
+    implementation(libs.kotlinx.datetime)
     implementation(project(":shared"))
 
     testImplementation(libs.junit)

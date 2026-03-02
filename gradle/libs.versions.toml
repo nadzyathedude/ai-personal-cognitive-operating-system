@@ -11,7 +11,7 @@ composeBom = "2024.09.00"
 okhttp = "4.12.0"
 viewmodelCompose = "2.8.7"
 materialIconsExtended = "1.7.6"
-porcupine = "3.0.1"
+porcupine = "4.0.0"
 mpandroidchart = "v3.1.0"
 
 [libraries]

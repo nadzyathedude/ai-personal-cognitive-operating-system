@@ -1,10 +1,8 @@
 package com.example.speach_recognotion_llm.data.audio
 
 import android.content.Context
-import ai.picovoice.porcupine.Porcupine
 import ai.picovoice.porcupine.PorcupineException
 import ai.picovoice.porcupine.PorcupineManager
-import ai.picovoice.porcupine.PorcupineManagerCallback
 
 class WakeWordManager(
     private val context: Context,
@@ -24,7 +22,7 @@ class WakeWordManager(
         try {
             porcupineManager = PorcupineManager.Builder()
                 .setAccessKey(accessKey)
-                .setKeyword(Porcupine.BuiltInKeyword.PORCUPINE)
+                .setKeywordPath("hi-dude_en_android_v4_0_0.ppn")
                 .setSensitivity(0.7f)
                 .build(context) { keywordIndex ->
                     onWakeWordDetected()
@@ -43,13 +41,16 @@ class WakeWordManager(
         _isListening = false
         try {
             porcupineManager?.stop()
+            porcupineManager?.delete()
         } catch (_: PorcupineException) {
         }
+        porcupineManager = null
     }
 
     fun destroy() {
-        stop()
+        _isListening = false
         try {
+            porcupineManager?.stop()
             porcupineManager?.delete()
         } catch (_: PorcupineException) {
         }

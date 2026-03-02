@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     stress_model_threshold: float = 0.5
     openai_api_key: str = ""
     llm_model: str = "gpt-4o"
+    garmin_consumer_key: str = ""
+    garmin_consumer_secret: str = ""
+    garmin_base_url: str = "https://connectapi.garmin.com"
+    server_base_url: str = "http://localhost:8000"
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 

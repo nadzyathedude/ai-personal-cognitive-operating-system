@@ -1,0 +1,150 @@
+<resources>
+    <string name="app_name">AI Когнитивный Ассистент</string>
+
+    <!-- Navigation -->
+    <string name="nav_chat">Чат</string>
+    <string name="nav_mood">Настроение</string>
+    <string name="nav_analytics">Аналитика</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_wake_word_hint">Скажите \'Hi Dude\' или нажмите на микрофон</string>
+    <string name="chat_tap_mic_hint">Нажмите на микрофон для начала</string>
+    <string name="chat_you">Вы</string>
+    <string name="chat_assistant">Ассистент</string>
+    <string name="chat_thinking">Думаю…</string>
+    <string name="chat_listening">Слушаю…</string>
+    <string name="chat_listening_wake">Жду ключевое слово…</string>
+    <string name="chat_stop_recording">Остановить запись</string>
+    <string name="chat_start_recording">Начать запись</string>
+
+    <!-- Connection -->
+    <string name="connection_connecting">Подключение…</string>
+    <string name="connection_reconnecting">Переподключение…</string>
+    <string name="connection_disconnected">Отключено</string>
+
+    <!-- Mood Journal Screen -->
+    <string name="mood_title">Дневник настроения</string>
+    <string name="mood_start_checkin">Начать сегодняшний чек-ин</string>
+    <string name="mood_analyzing">Анализирую ваш ответ…</string>
+    <string name="mood_followup_title">Уточняющие вопросы</string>
+    <string name="mood_detected">Обнаружено: %s</string>
+    <string name="mood_type_answer">Напишите ваш ответ…</string>
+    <string name="mood_submit">Отправить</string>
+    <string name="mood_session_complete">Сессия завершена</string>
+    <string name="mood_reflection">Рефлексия</string>
+    <string name="mood_done">Готово</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_title">Недельная аналитика</string>
+    <string name="analytics_mood_valence">Настроение (валентность)</string>
+    <string name="analytics_valence">Валентность</string>
+    <string name="analytics_stress_level">Уровень стресса</string>
+    <string name="analytics_stress">Стресс</string>
+    <string name="analytics_emotion_dist">Распределение эмоций</string>
+    <string name="analytics_emotions">Эмоции</string>
+    <string name="analytics_weekly_summary">Недельная сводка</string>
+    <string name="analytics_loading">Загрузка аналитики…</string>
+    <string name="analytics_dominant_emotion">Основная эмоция: %1$s | Средний стресс: %2$s</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_desc">Выберите язык приложения</string>
+    <string name="settings_english">Английский</string>
+    <string name="settings_russian">Русский</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_version">Версия %s</string>
+    <string name="settings_app_restart">Язык изменён. Перезапуск…</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Голосовой ассистент</string>
+    <string name="notif_channel_desc">Распознавание ключевого слова активно</string>
+    <string name="notif_title">Голосовой ассистент</string>
+    <string name="notif_listening_wake">Жду ключевое слово…</string>
+    <string name="notif_wake_detected">Ключевое слово обнаружено!</string>
+    <string name="notif_recording">Записываю ваш вопрос…</string>
+    <string name="notif_processing">Обработка…</string>
+    <string name="notif_responding">Ассистент отвечает…</string>
+    <string name="notif_error">Ошибка: %s</string>
+
+    <!-- Mood Voice -->
+    <string name="mood_voice_record">Нажмите для записи</string>
+    <string name="mood_voice_stop">Нажмите для остановки</string>
+    <string name="mood_voice_listening">Слушаю…</string>
+    <string name="mood_voice_or">или</string>
+    <string name="mood_voice_recorded">Голос записан</string>
+
+    <!-- HRV Screen -->
+    <string name="nav_hrv">ВСР</string>
+    <string name="hrv_title">Вариабельность сердечного ритма</string>
+    <string name="hrv_current">Текущая ВСР</string>
+    <string name="hrv_ms">мс</string>
+    <string name="hrv_resting_hr">ЧСС покоя</string>
+    <string name="hrv_bpm">уд/мин</string>
+    <string name="hrv_sleep_score">Качество сна</string>
+    <string name="hrv_stress_index">Комплексный стресс</string>
+    <string name="hrv_voice_stress">Голосовой стресс</string>
+    <string name="hrv_text_stress">Текстовый стресс</string>
+    <string name="hrv_hrv_stress">Стресс по ВСР</string>
+    <string name="hrv_composite">Общий</string>
+    <string name="hrv_garmin_status">Статус Garmin</string>
+    <string name="hrv_connected">Подключён</string>
+    <string name="hrv_not_connected">Не подключён</string>
+    <string name="hrv_connect">Подключить</string>
+    <string name="hrv_scan">Поиск устройств</string>
+    <string name="hrv_stop_scan">Остановить поиск</string>
+    <string name="hrv_scanning">Поиск…</string>
+    <string name="hrv_searching">Поиск устройств с пульсометром…</string>
+    <string name="hrv_waiting_hr">Подключено. Ожидание данных пульса…\nУбедитесь, что трансляция ЧСС включена на часах.</string>
+    <string name="hrv_saved_devices">Ранее подключённые</string>
+    <string name="hrv_refresh">Обновить</string>
+    <string name="hrv_calibrating">Калибровка пульса…\nПодождите несколько секунд.</string>
+    <string name="hrv_no_data">Нет данных ВСР.\nПодключите устройство Garmin для начала.</string>
+    <string name="hrv_daily_trend">Дневной тренд ВСР</string>
+    <string name="hrv_low">Низкая</string>
+    <string name="hrv_normal">Норма</string>
+    <string name="hrv_good">Хорошая</string>
+    <string name="hrv_hr_low">Низкий</string>
+    <string name="hrv_hr_elevated">Повышен</string>
+    <string name="hrv_hr_high">Высокий</string>
+    <string name="hrv_excellent">Отличная</string>
+
+    <!-- Tone Analysis -->
+    <string name="tone_voice_analysis">Анализ тона голоса</string>
+    <string name="tone_acoustic_emotion">Эмоция голоса</string>
+    <string name="tone_descriptor">Тон</string>
+    <string name="tone_vocal_stress">Голосовой стресс</string>
+    <string name="tone_fusion">Комбинированный анализ</string>
+    <string name="tone_mismatch_warning">Обнаружено несоответствие</string>
+
+    <!-- Calendar Screen -->
+    <string name="nav_calendar">Календарь</string>
+    <string name="calendar_title">Умный календарь</string>
+    <string name="calendar_permission_title">Требуется доступ к календарю</string>
+    <string name="calendar_permission_desc">Предоставьте доступ для чтения и изменения Google Календаря для планирования с учётом стресса</string>
+    <string name="calendar_grant_access">Предоставить доступ</string>
+    <string name="calendar_auto_adjust">Авто-корректировка</string>
+    <string name="calendar_auto_adjust_desc">Автоматическая корректировка расписания на основе стресса</string>
+    <string name="calendar_adjustment_title">Предложение по корректировке расписания</string>
+    <string name="calendar_recovery_count">%d блоков восстановления</string>
+    <string name="calendar_rescheduled_count">%d событий перенесено</string>
+    <string name="calendar_coaching_count">%d напоминаний коучинга</string>
+    <string name="calendar_apply">Применить</string>
+    <string name="calendar_dismiss">Отклонить</string>
+    <string name="calendar_no_events">Нет событий на этот день</string>
+    <string name="calendar_stress_level">Стресс: %d%%</string>
+    <string name="calendar_risk_low">Низкий риск</string>
+    <string name="calendar_risk_moderate">Умеренный риск</string>
+    <string name="calendar_risk_high">Высокий риск</string>
+    <string name="calendar_recovery_label">Восстановление</string>
+    <string name="calendar_coaching_label">Коучинг</string>
+    <string name="calendar_loading">Загрузка календаря…</string>
+    <string name="calendar_adjusting">Применение корректировок…</string>
+
+    <!-- Errors -->
+    <string name="error_mood_start">Не удалось начать сессию: %s</string>
+    <string name="error_mood_process">Не удалось обработать ответ: %s</string>
+    <string name="error_mood_followup">Не удалось обработать уточнение: %s</string>
+    <string name="error_analytics_load">Не удалось загрузить аналитику: %s</string>
+</resources>
