@@ -18,15 +18,6 @@
 
 Продакшн-готовый полиглотный стек: Kotlin Multiplatform (общая кодовая база Android + iOS), Node.js сервер реального времени (Fastify/WebSocket), Python ML-бэкенд (FastAPI, SpeechBrain, HuggingFace). Горизонтально масштабируемый, полностью асинхронный, готов к 10K+ одновременных пользователей.
 
-### Модель монетизации
-
-| Канал | Цена | Целевая аудитория |
-|-------|------|-------------------|
-| B2C подписка | $9.99/мес | Индивидуальные пользователи |
-| B2B корпоративное здоровье | $2-5/сотрудник/мес | Корпоративные EAP-программы, страхование |
-| API-лицензирование | Оплата за вызов | Аналитика эмоций для сторонних платформ |
-| OEM-партнёрства | Revenue share | Производители носимых устройств (интеграция с Garmin готова) |
-
 ---
 
 A full-stack AI voice assistant with wake-word detection, voice biometrics, emotion-aware coaching, real-time BLE heart rate monitoring, stress-aware calendar scheduling, and predictive burnout analytics. Built with Kotlin Multiplatform, Jetpack Compose, Node.js, and Python FastAPI.
