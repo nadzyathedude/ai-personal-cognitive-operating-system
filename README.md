@@ -1,43 +1,12 @@
 # AI Personal Cognitive Operating System
 
----
 
-## Why This Product
 
-**This is not another chatbot. This is a Personal Cognitive Operating System** -- an AI-powered wellbeing and productivity platform at the intersection of three massive markets: employee wellness ($50B+), digital mental health ($17B+), and smart wearables ($60B+).
-
-The system continuously monitors a user's emotional state through voice, text, and physiological signals (heart rate, HRV), predicts burnout risk 7 days in advance, and autonomously adapts coaching strategies and calendar scheduling to keep the user resilient and productive.
-
-### Competitive Advantages
-
-- **Multi-modal emotion fusion** -- combines acoustic prosody (40+ voice features via wav2vec2), text sentiment (DistilRoBERTa), and BLE heart rate data into a single stress index. Detects when someone says "I'm fine" but their voice says otherwise.
-- **On-device reinforcement learning** -- Thompson Sampling learns which coaching strategies work for each individual user, with zero data leaving the device. Privacy by architecture, not by policy.
-- **Predictive burnout engine** -- 14-day temporal feature analysis with 7-day forward projection. Not reactive ("you're stressed"), but predictive ("at this trajectory, you'll hit critical in 5 days").
-- **Stress-aware calendar automation** -- the first assistant that integrates real-time physiological stress data into schedule management, automatically inserting recovery blocks and rescheduling non-critical work.
-- **Voice biometric security** -- ECAPA-TDNN speaker verification with anti-spoof detection prevents unauthorized access and replay attacks.
-
-### Architecture & Scale
-
-Production-grade polyglot stack: Kotlin Multiplatform (Android + iOS shared codebase), Node.js real-time streaming server (Fastify/WebSocket), Python ML backend (FastAPI, SpeechBrain, HuggingFace). Horizontally scalable, fully async, ready for 10K+ concurrent users.
-
-### Revenue Model
-
-| Channel | Price | Target |
-|---------|-------|--------|
-| B2C subscription | $9.99/mo | Individual users |
-| B2B employee wellness | $2-5/employee/mo | Corporate EAP programs, insurance |
-| API licensing | Per-call pricing | Emotion analytics for third-party platforms |
-| OEM partnerships | Revenue share | Wearable manufacturers (Garmin integration built) |
-
----
-
-## Почему этот продукт
-
-**Это не очередной чат-бот. Это персональная когнитивная операционная система** -- AI-платформа для управления благополучием и продуктивностью на стыке трёх масштабных рынков: корпоративное здоровье ($50B+), цифровое ментальное здоровье ($17B+) и умные носимые устройства ($60B+).
+**Это персональная когнитивная операционная система** -- AI-платформа для управления благополучием и продуктивностьюю
 
 Система непрерывно отслеживает эмоциональное состояние пользователя через голос, текст и физиологические сигналы (пульс, вариабельность сердечного ритма), прогнозирует риск выгорания на 7 дней вперёд и автономно адаптирует стратегии коучинга и расписание календаря, сохраняя устойчивость и продуктивность пользователя.
 
-### Конкурентные преимущества
+
 
 - **Мультимодальный анализ эмоций** -- объединяет акустическую просодию (40+ голосовых признаков через wav2vec2), текстовую тональность (DistilRoBERTa) и данные пульса через BLE в единый индекс стресса. Распознаёт, когда человек говорит «всё хорошо», но голос выдаёт обратное.
 - **On-device обучение с подкреплением** -- алгоритм Thompson Sampling обучается, какие стратегии коучинга работают для конкретного пользователя, без передачи данных за пределы устройства. Приватность на уровне архитектуры, а не политики.
