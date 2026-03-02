@@ -24,7 +24,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "WS_URL", "\"ws://localhost:3001\"")
+        buildConfigField("String", "WS_URL", "\"ws://192.168.3.36:3001\"")
         buildConfigField(
             "String",
             "PORCUPINE_ACCESS_KEY",
